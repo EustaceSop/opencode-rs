@@ -1,0 +1,33 @@
+[package]
+name = "opencode-desktop"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+async-trait = "0.1.92"
+gpui-kit = { version = "=0.9.1", features = ["syntect"] }
+opencode-core = { path = "../opencode-core" }
+opencode-llm = { path = "../opencode-llm" }
+opencode-server = { path = "../opencode-server" }
+opencode-session = { path = "../opencode-session" }
+opencode-storage = { path = "../opencode-storage" }
+opencode-tools = { path = "../opencode-tools" }
+interprocess = "2.4.8"
+reqwest = { version = "0.13.5", default-features = false, features = ["rustls"] }
+rodio = { version = "0.23.0", default-features = false, features = ["playback", "symphonia-aac"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1.0.154", features = ["preserve_order"] }
+tokio = { version = "1.54.1", features = ["rt-multi-thread", "sync", "time"] }
+tokio-util = "0.7.20"
+url = "2.5.8"
+
+[target."cfg(windows)".dependencies]
+windows-sys = { version = "0.61.2", features = ["Win32_Globalization"] }
+
+[build-dependencies]
+embed-resource = "3.0.12"
+
+[dev-dependencies]
+gpui-kit = { version = "=0.9.1", features = ["syntect", "test-support"] }
+tempfile = "3.27.0"
