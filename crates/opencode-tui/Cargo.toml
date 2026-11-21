@@ -1,0 +1,37 @@
+[package]
+name = "opencode-tui"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+anyhow = "1.0.104"
+async-trait = "0.1.92"
+chrono = "0.4.45"
+crossterm = "0.29.0"
+ignore = "0.4.34"
+jsonc-parser = { version = "0.34.0", features = ["serde"] }
+indexmap = "2.14.2"
+opencode-client = { path = "../opencode-client" }
+opencode-core = { path = "../opencode-core" }
+opencode-llm = { path = "../opencode-llm" }
+opencode-server = { path = "../opencode-server" }
+opencode-session = { path = "../opencode-session" }
+opencode-storage = { path = "../opencode-storage" }
+opencode-tools = { path = "../opencode-tools" }
+rodio = { version = "0.23.0", default-features = false, features = ["playback", "symphonia-aac"] }
+pulldown-cmark = { version = "0.13.6", default-features = false }
+ratatui = { version = "0.30.2", default-features = false, features = ["crossterm"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = { version = "1.0.154", features = ["preserve_order"] }
+syntect = { version = "5.3.0", default-features = false, features = ["default-fancy"] }
+tokio = { version = "1.54.1", features = ["rt-multi-thread", "macros", "time", "sync"] }
+tokio-util = "0.7.20"
+unicode-width = "0.2.3"
+
+[target."cfg(windows)".dependencies]
+windows-sys = { version = "0.61.2", features = ["Win32_System_Console"] }
+
+[dev-dependencies]
+tempfile = "3.27.0"
+tokio = { version = "1.54.1", features = ["net", "io-util", "rt-multi-thread", "macros", "time", "sync"] }
