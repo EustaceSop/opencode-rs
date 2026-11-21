@@ -1,0 +1,22 @@
+[workspace]
+resolver = "3"
+members = ["crates/*"]
+
+[workspace.package]
+version = "1.19.5"
+edition = "2024"
+license = "MIT"
+
+# Shipping profile.
+# - lto = "thin": cross-crate inlining across the 12 workspace crates at a fraction of fat LTO's link time.
+# - codegen-units = 4: fewer units than the default 16 give ThinLTO better input and a smaller binary, while
+#   still compiling the large dependency graph (gpui, rusqlite's bundled SQLite) in parallel.
+# - strip = "debuginfo": drops debug sections but keeps symbol names, so a panic backtrace stays readable.
+# - panic stays "unwind": tokio turns a panicking task into a JoinError and the TUI restores the terminal while
+#   unwinding; "abort" would take the whole server down with one failed task and leave the terminal in raw mode.
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 4
+strip = "debuginfo"
+panic = "unwind"

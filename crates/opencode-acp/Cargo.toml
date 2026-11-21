@@ -1,0 +1,26 @@
+[package]
+name = "opencode-acp"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+anyhow = "1.0.104"
+async-trait = "0.1.92"
+base64 = "0.23.1"
+chrono = "0.4.45"
+futures-util = "0.3.34"
+opencode-core = { path = "../opencode-core" }
+opencode-session = { path = "../opencode-session" }
+opencode-storage = { path = "../opencode-storage" }
+opencode-tools = { path = "../opencode-tools" }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = { version = "1.0.154", features = ["preserve_order"] }
+tokio = { version = "1.54.1", features = ["rt-multi-thread", "macros", "sync", "io-util", "io-std"] }
+tokio-util = "0.7.20"
+tracing = "0.1.44"
+
+[dev-dependencies]
+opencode-llm = { path = "../opencode-llm" }
+tempfile = "3.27.0"
+tokio = { version = "1.54.1", features = ["net", "io-util", "rt-multi-thread", "macros", "time"] }
