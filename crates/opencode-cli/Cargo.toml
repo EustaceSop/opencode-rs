@@ -1,0 +1,48 @@
+[package]
+name = "opencode-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+anyhow = "1.0.104"
+async-trait = "0.1.92"
+base64 = "0.23.1"
+chrono = "0.4.45"
+clap = { version = "4.6.7", features = ["derive"] }
+clap_complete = "4.6.11"
+if-addrs = "0.15.0"
+indexmap = "2.14.2"
+inquire = "0.9.4"
+opencode-acp = { path = "../opencode-acp" }
+opencode-client = { path = "../opencode-client" }
+opencode-core = { path = "../opencode-core" }
+opencode-import = { path = "../opencode-import" }
+opencode-llm = { path = "../opencode-llm" }
+opencode-lsp = { path = "../opencode-lsp" }
+opencode-mcp = { path = "../opencode-mcp" }
+opencode-plugin = { path = "../opencode-plugin" }
+opencode-server = { path = "../opencode-server" }
+opencode-session = { path = "../opencode-session" }
+opencode-storage = { path = "../opencode-storage" }
+opencode-tools = { path = "../opencode-tools" }
+opencode-tui = { path = "../opencode-tui" }
+ratatui = { version = "0.30.2", default-features = false, features = ["crossterm"] }
+regex = "1.13.1"
+reqwest = { version = "0.13.5", default-features = false, features = ["rustls"] }
+rusqlite = { version = "0.41.1", features = ["bundled"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = { version = "1.0.154", features = ["preserve_order"] }
+tokio = { version = "1.54.1", features = ["rt-multi-thread", "macros", "signal", "process", "io-util", "time", "fs", "io-std"] }
+tokio-util = "0.7.20"
+tracing = "0.1.44"
+tracing-subscriber = { version = "0.3.23", default-features = false, features = ["registry", "std"] }
+which = "8.0.6"
+
+[dev-dependencies]
+tempfile = "3.27.0"
+tokio = { version = "1.54.1", features = ["net", "io-util", "rt-multi-thread", "macros", "time", "process"] }
+
+[[bin]]
+name = "opencode"
+path = "src/main.rs"

@@ -1,0 +1,23 @@
+[package]
+name = "opencode-client"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+base64 = "0.23.1"
+indexmap = { version = "2.14.2", features = ["serde"] }
+opencode-storage = { path = "../opencode-storage" }
+reqwest = { version = "0.13.5", default-features = false, features = ["rustls"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = { version = "1.0.154", features = ["preserve_order"] }
+thiserror = "2.0.21"
+tokio = { version = "1.54.1", features = ["rt", "macros", "time", "sync"] }
+
+[dev-dependencies]
+opencode-core = { path = "../opencode-core" }
+opencode-llm = { path = "../opencode-llm" }
+opencode-server = { path = "../opencode-server" }
+opencode-session = { path = "../opencode-session" }
+tempfile = "3.27.0"
+tokio = { version = "1.54.1", features = ["net", "io-util", "rt-multi-thread", "macros", "time"] }
