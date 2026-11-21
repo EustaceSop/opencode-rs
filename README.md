@@ -22,7 +22,7 @@ configuration. It keeps its own sessions and never touches the original's.
 | Terminal UI | `opencode` | ratatui |
 | Desktop app | `opencode-desktop` | GPUI |
 | CLI | `opencode run`, `models`, `providers`, `mcp`, `export`, `import`, `stats`, … | clap |
-| Server | `opencode serve`, `opencode web` | axum. Serves the original's HTTP API and embeds its web UI |
+| Server / web | `opencode serve`, `opencode web` | axum. Serves the original's HTTP API and embeds its web UI, which also runs on a phone |
 
 ## Highlights
 
@@ -32,6 +32,16 @@ configuration. It keeps its own sessions and never touches the original's.
   - read 2.x logins (read-only);
   - import 2.x sessions;
   - accept v2 `permissions` rules and `cli.json` TUI settings.
+- **Works with the agents you already use:**
+  - `opencode import` brings over MCP servers, agents and skills from Claude Code, Codex, Cursor, Windsurf,
+    Grok Build, DeepSeek Harness, `~/.mcp.json` and opencode.
+  - It also imports conversations from Claude Code, Codex, Grok Build, DeepSeek Harness and opencode.
+  - It reads `AGENTS.md` and `CLAUDE.md` instructions, and skills in `.claude/skills` and `.agents/skills`, both in
+    your home folder and in the project.
+  - Command names from other agents work too, e.g. `/rewind` → `/undo` and `/resume` → sessions.
+  - `opencode acp` speaks the Agent Client Protocol, for editors that support it.
+- **Tasks from your phone.** `opencode web` serves the web UI on your network, so you can start and follow tasks
+  from a phone browser while the work runs on your PC ([how](#use-it-from-a-phone)).
 - **Features ported from v2:**
   - steer a running task;
   - better compaction;
@@ -50,7 +60,6 @@ configuration. It keeps its own sessions and never touches the original's.
   - keeps the TUI aligned in the classic console (conhost) with CJK code pages.
 - **Small touches:**
   - sounds in both the TUI and the desktop app;
-  - command names from other agents, e.g. `/rewind` → `/undo`;
   - the desktop app's language follows the system locale.
 
 ## Install
@@ -113,7 +122,7 @@ The binaries land in `target\release\` as `opencode.exe` and `opencode-desktop.e
 
 | Optional | How |
 |---|---|
-| Web UI for `opencode web` | Build `opencode-ts/packages/app` with Bun (`bun install`, then `bun run build`) before `cargo build`, or set `OPENCODE_WEB_UI_DIR` to a built `dist`. Without it the server has no UI |
+| Web UI for `opencode web` | Build `opencode-ts/packages/app` with Bun (`bun install`, then `bun run build`) before `cargo build`, or set `OPENCODE_WEB_UI_DIR` to a built `dist`. Without it the server has no UI. The prebuilt binaries already include it |
 | Release zips | `scripts\package.ps1` writes them and `SHA256SUMS` to `dist\` |
 | Installer | `scripts\package-desktop-installer.ps1`. If NSIS isn't installed, it downloads a pinned NSIS into `target\tools` and checks its SHA-256 |
 | Linux / macOS | `scripts/package.sh` (untested) |
@@ -131,6 +140,24 @@ opencode import                   # MCP servers, agents, skills and chats from o
 
 Start the desktop app from the Start menu (*OpenCode*), or run `opencode-desktop.exe`. If you're already signed in
 with the official opencode, there's nothing to set up: the login is shared.
+
+### Use it from a phone
+
+Run the web server on your PC with a password, listening on the network:
+
+```powershell
+$env:OPENCODE_SERVER_PASSWORD = "choose-a-password"
+opencode web --hostname 0.0.0.0 --port 4096
+```
+
+1. On a phone on the same Wi-Fi, open `http://<PC IP>:4096`. `ipconfig` shows the PC's IPv4 address.
+2. Sign in with the user name `opencode` and your password.
+3. If Windows asks, allow access on private networks.
+
+Without a password the server warns that it is unsecured, so always set one. To reach the PC from outside your
+home network, use a VPN rather than opening the port to the internet.
+
+### TUI settings
 
 TUI settings live in `~/.local/state/opencode/kv.json`. The original ignores these keys:
 

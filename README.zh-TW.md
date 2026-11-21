@@ -21,7 +21,7 @@ opencode-rs 以原生執行檔重新實作 TypeScript 版 opencode（對應標�
 | 終端介面 (TUI) | `opencode` | ratatui |
 | 桌面應用 | `opencode-desktop` | GPUI |
 | CLI | `opencode run`、`models`、`providers`、`mcp`、`export`、`import`、`stats`… | clap |
-| 伺服器 | `opencode serve`、`opencode web` | axum，提供原版 HTTP API 並內嵌原版網頁介面 |
+| 伺服器／網頁 | `opencode serve`、`opencode web` | axum，提供原版 HTTP API 並內嵌原版網頁介面，手機也能用 |
 
 ## 特色
 
@@ -31,6 +31,15 @@ opencode-rs 以原生執行檔重新實作 TypeScript 版 opencode（對應標�
   - 讀取 2.x 的登入（唯讀）
   - 匯入 2.x 的對話
   - 接受 v2 的 `permissions` 規則與 `cli.json` 的 TUI 設定
+- **相容你正在用的其他 AI 代理**：
+  - `opencode import` 可從 Claude Code、Codex、Cursor、Windsurf、Grok Build、DeepSeek Harness、`~/.mcp.json`
+    與 opencode 匯入 MCP 伺服器、代理與技能
+  - 也能匯入 Claude Code、Codex、Grok Build、DeepSeek Harness 與 opencode 的對話紀錄
+  - 讀取 `AGENTS.md`、`CLAUDE.md` 指示，以及家目錄和專案裡 `.claude/skills`、`.agents/skills` 的技能
+  - 其他代理的指令名稱也能用，例如 `/rewind` → `/undo`、`/resume` → 對話列表
+  - `opencode acp` 支援 Agent Client Protocol，可接上支援 ACP 的編輯器
+- **用手機派任務**：`opencode web` 在區域網路提供網頁介面，用手機瀏覽器就能下任務、看進度，實際工作在電腦上執行
+  （[作法](#用手機操作)）
 - **移植自 v2 的功能**：
   - 任務執行中可插話改變方向
   - 改良的上下文壓縮
@@ -49,7 +58,6 @@ opencode-rs 以原生執行檔重新實作 TypeScript 版 opencode（對應標�
   - Windows 傳統主控台（conhost）在中日韓字碼頁下 TUI 也能對齊
 - **細節**：
   - TUI 與桌面版都有提示音效
-  - 支援其他 AI 代理的指令名稱，例如 `/rewind` → `/undo`
   - 桌面版介面語言跟隨系統地區
 
 ## 安裝
@@ -112,7 +120,7 @@ cargo build --release --locked -p opencode-cli -p opencode-desktop
 
 | 選用項目 | 作法 |
 |---|---|
-| `opencode web` 的網頁介面 | 先用 Bun 編譯 `opencode-ts/packages/app`（`bun install` 後 `bun run build`）再 `cargo build`；或把 `OPENCODE_WEB_UI_DIR` 指向已編譯好的 `dist`。沒有的話伺服器不帶介面 |
+| `opencode web` 的網頁介面 | 先用 Bun 編譯 `opencode-ts/packages/app`（`bun install` 後 `bun run build`）再 `cargo build`；或把 `OPENCODE_WEB_UI_DIR` 指向已編譯好的 `dist`。沒有的話伺服器不帶介面；預先編譯版已內含 |
 | 發佈用 zip | `scripts\package.ps1`，連同 `SHA256SUMS` 輸出到 `dist\` |
 | 安裝程式 | `scripts\package-desktop-installer.ps1`；找不到 NSIS 時會下載固定版本到 `target\tools` 並驗證 SHA-256 |
 | Linux／macOS | `scripts/package.sh`（未測試） |
@@ -130,6 +138,23 @@ opencode import                   # 從其他 AI 代理匯入 MCP 伺服器、�
 
 桌面版可以從開始功能表（*OpenCode*）開啟，或直接執行 `opencode-desktop.exe`。已經在官方 opencode 登入過的話，
 登入是共用的，不需要再設定。
+
+### 用手機操作
+
+在電腦上設定密碼，並讓網頁伺服器在區域網路上監聽：
+
+```powershell
+$env:OPENCODE_SERVER_PASSWORD = "自訂密碼"
+opencode web --hostname 0.0.0.0 --port 4096
+```
+
+1. 手機連同一個 Wi-Fi，開啟 `http://<電腦 IP>:4096`。電腦的 IPv4 位址可用 `ipconfig` 查。
+2. 用帳號 `opencode` 和剛設定的密碼登入。
+3. Windows 防火牆若跳出詢問，允許「私人網路」存取。
+
+沒設密碼時伺服器會警告「未受保護」，請一定要設定。要從外面連回家，請用 VPN，不要把連接埠直接開到網際網路上。
+
+### TUI 設定
 
 TUI 設定在 `~/.local/state/opencode/kv.json`，原版會忽略這些鍵：
 
