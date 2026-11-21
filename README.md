@@ -104,7 +104,7 @@ workspace/
 ```powershell
 mkdir workspace; cd workspace
 git clone --depth 1 --branch v1.19.5 https://github.com/anomalyco/opencode.git opencode-ts
-git clone https://github.com/<owner>/opencode-rs.git
+git clone https://github.com/EustaceSop/opencode-rs.git
 cd opencode-rs
 cargo build --release --locked -p opencode-cli -p opencode-desktop
 ```
@@ -189,6 +189,13 @@ docs/spec/            behaviour specs written against v1.19.5
 docs/REFERENCE.md     crates, compatibility contract, command status
 scripts/              packaging
 ```
+
+## Acknowledgements
+
+- **[opencode](https://github.com/anomalyco/opencode)**: the original project. Thanks to its authors for the design
+  this rewrite follows.
+- **[Claude Code](https://claude.com/claude-code)** by Anthropic: this project was developed with it. Commits written
+  with Claude carry a `Co-Authored-By` trailer.
 
 ## License
 

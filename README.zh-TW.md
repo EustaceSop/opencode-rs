@@ -103,7 +103,7 @@ workspace/
 ```powershell
 mkdir workspace; cd workspace
 git clone --depth 1 --branch v1.19.5 https://github.com/anomalyco/opencode.git opencode-ts
-git clone https://github.com/<owner>/opencode-rs.git
+git clone https://github.com/EustaceSop/opencode-rs.git
 cd opencode-rs
 cargo build --release --locked -p opencode-cli -p opencode-desktop
 ```
@@ -187,6 +187,12 @@ docs/spec/            依 v1.19.5 撰寫的行為規格
 docs/REFERENCE.md     crate 說明、相容性約定、指令狀態
 scripts/              打包腳本
 ```
+
+## 致謝
+
+- **[opencode](https://github.com/anomalyco/opencode)**：本專案依循的原版，感謝原作者們的設計。
+- **[Claude Code](https://claude.com/claude-code)**（Anthropic）：本專案以 Claude Code 開發；由 Claude 撰寫的 commit
+  附有 `Co-Authored-By` 標記。
 
 ## 授權
 
